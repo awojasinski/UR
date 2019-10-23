@@ -7,7 +7,6 @@ blurred = cv2.GaussianBlur(gray, (5,5), 0)
 thresh = cv2.threshold(blurred, 70, 255, cv2.THRESH_BINARY)[1]
 
 cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-print(cnts)
 cnts = imutils.grab_contours(cnts)
 
 for c in cnts:
@@ -20,3 +19,4 @@ for c in cnts:
 
 cv2.imshow("Image", img)
 cv2.waitKey(0)
+cv2.destroyAllWindows()
