@@ -1,3 +1,9 @@
+# TODO:
+#   - convert image from BGR to HSV
+#   - define ranges of specific colors (data structure? dictionary or something like that)
+#   - ranges of colors in separated in different file
+#   - create array with information (shape area, coordinate X, coordinate Y, color, orientation of the shape)
+
 import cv2
 import imutils
 
@@ -14,9 +20,9 @@ for c in cnts:
     cX = int(M["m10"] / M["m00"])
     cY = int(M["m01"] / M["m00"])
 
-    cv2.drawContours(img, [c], -1, (0, 0, 255), 2)
+    cv2.drawContours(img, [c], -1, (0, 0, 255), 2, cv2.LINE_AA)
     cv2.circle(img, (cX, cY), 4, (255, 255, 255), -1)
 
-cv2.imshow("Image", img)
+cv2.imshow("Image thresh", img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
