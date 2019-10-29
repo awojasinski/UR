@@ -1,13 +1,21 @@
 import cv2 as cv
+from matplotlib import pyplot as plt
 from pyzbar import pyzbar
 
-img = cv.imread('img/qr2.jpg')
+img = cv.imread('img/qr1.jpg')
+scale_percent = 40 # percent of original size
+width = int(img.shape[1] * scale_percent / 100)
+height = int(img.shape[0] * scale_percent / 100)
+dim = (width, height)
+img = cv.resize(img, dim)
+my_dpi = 60
 
 barcodes = pyzbar.decode(img)
 for barcode in barcodes:
     # extract the bounding box location of the barcode and draw the
     # bounding box surrounding the barcode on the image
     (x, y, w, h) = barcode.rect
+    print(x, ',', y, ',', w, ',', h)
     cv.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
     # the barcode data is a bytes object so if we want to draw it on
@@ -24,5 +32,7 @@ for barcode in barcodes:
     print("[INFO] Found {} barcode: {}".format(barcodeType, barcodeData))
 
 # show the output image
-cv.imshow("Image", img)
+plt.figure(num=None, figsize=(dim[0]/my_dpi, dim[1]/my_dpi), dpi=my_dpi)
+plt.imshow(img)
+plt.show()
 cv.waitKey(0)
