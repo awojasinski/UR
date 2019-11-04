@@ -12,6 +12,7 @@ colors = {
     'blue': np.array([240, 100, 100]),
     'violet': np.array([270, 100, 100]),
     'pink': np.array([330, 100, 100]),
+    'red': np.array([360, 100, 100]),
 }
 
 def rgb_to_hsv(pixelRGB):
@@ -80,7 +81,7 @@ for c in cnts:
     cY = int(M["m01"] / M["m00"])
     #rgb_value = rgb.copy()
     #rgb_value = np.mean(np.mean(rgb[cX-2:cX+2, cY-2:cY+2], axis=0), axis=0)
-    points = np.append(points, [[cX, cY, rgb[cX, cY], colorRecognition(rgb[cX, cY])]], axis=0)
+    points = np.append(points, [[cX, cY, rgb[cY, cX], colorRecognition(rgb[cY, cX])]], axis=0)
 
     # cv.drawContours(img, [c], -1, (0, 0, 255), 2, cv.LINE_AA)
 
