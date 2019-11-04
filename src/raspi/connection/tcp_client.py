@@ -1,6 +1,6 @@
 import socket
 
-HOST = 'localhost'
+HOST = '192.168.1.113'
 PORT = 10000
 MESSAGE = 'Hello world!'
 
