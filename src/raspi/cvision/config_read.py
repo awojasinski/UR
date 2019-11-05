@@ -1,20 +1,18 @@
 import json
+import numpy as np
 
-def configRead():
+
+def configRead(file):
     with open('config.json', 'r') as config_file:
         data = config_file.read()
 
     config = json.loads(data)
-    print("host: " + str(config['connection']['host']))
-    print("port: " + str(config['connection']['port']))
-    print("------------------------------")
-    print("computer vision mode: " + str(config['cvision']['type']))
-    print("------------------------------")
-    j = 1
-    for i in config['cvision']['order']:
-        print(str(j) + ". " + str(i))
-        j = j+1
-    return config
+    mode = config['cvision']['type']
 
-config = configRead()
-print(config)
+    order = np.empty(shape=(0, len(config['cvision']['order'][0])))
+
+    for object in config['cvision']['order']:
+        order = np.append(order, [object], axis=0)
+
+    return config, mode, order
+
