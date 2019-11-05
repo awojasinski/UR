@@ -28,8 +28,9 @@ def rgb2hsv(pixelRGB):
     return [int(h), int(s), int(v)]
 
 
-def rbg2hsv(pixelRBG):
-    r, b, g = (pixelRBG) / 255.0
+def bgr2hsv(pixelBGR):
+
+    b, g, r = (pixelBGR) / 255.0
 
     cmax = max(r, b, g)
     cmin = min(r, b, g)
