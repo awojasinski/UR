@@ -1,5 +1,5 @@
 import numpy as np
-from cvision.rgb2hsv import rgb2hsv, rbg2hsv
+from cvision.rgb2hsv import rgb2hsv, bgr2hsv
 
 
 # colors in Hue Saturation Value color space
@@ -16,8 +16,8 @@ colors = {
 
 
 def colorRecognition(image, pixel):
-    pixelRBG = image[pixel[0]][pixel[1]]
-    pixelHSV = rbg2hsv(pixelRBG)
+    pixelBGR = image[pixel[0]][pixel[1]]
+    pixelHSV = bgr2hsv(pixelBGR)
     if pixelHSV[1] < 10:
         if pixelHSV[2] < 12:
             return 'black'
