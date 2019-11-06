@@ -7,7 +7,7 @@ from time import sleep
 
 
 camera = PiCamera()
-camera.resolution = (1000, 600)
+camera.resolution = (1920, 1080)
 camera.framerate = 30
 rawCapture = PiRGBArray(camera, size=(1000, 600))
 sleep(0.1)
@@ -15,6 +15,7 @@ sleep(0.1)
 for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
 
     img = frame.array
+    img = cv.resize(img, (800, 450))
     gray = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
     blurred = cv.GaussianBlur(gray, (5,5), 0)
     #thresh = cv.threshold(blurred, 50, 255, cv.THRESH_BINARY)[1]
