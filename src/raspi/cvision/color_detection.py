@@ -1,28 +1,38 @@
-# TODO:
-#   - convert image from BGR to HSV
-#   - define ranges of specific colors (data structure? dictionary or something like that)
-#   - ranges of colors in separated in different file
-#   - create array with information (shape area, coordinate X, coordinate Y, color, orientation of the shape)
+import numpy as np
+from cvision.rgb2hsv import rgb2hsv, bgr2hsv
 
-import cv2
-import imutils
 
-img = cv2.imread('shapes_and_colors.jpg')
-gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-blurred = cv2.GaussianBlur(gray, (5,5), 0)
-thresh = cv2.threshold(blurred, 70, 255, cv2.THRESH_BINARY)[1]
+# colors in Hue Saturation Value color space
+colors = {
+    'red': np.array([0, 100, 100]),
+    'orange': np.array([35, 100, 100]),
+    'yellow': np.array([60, 100, 100]),
+    'green': np.array([120, 100, 100]),
+    'blue': np.array([240, 100, 100]),
+    'violet': np.array([270, 100, 100]),
+    'pink': np.array([330, 100, 100]),
+    'red': np.array([360, 100, 100]),
+}
 
-cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-cnts = imutils.grab_contours(cnts)
 
-for c in cnts:
-    M = cv2.moments(c)
-    cX = int(M["m10"] / M["m00"])
-    cY = int(M["m01"] / M["m00"])
+def colorRecognition(image, pixel):
+    pixelBGR = image[pixel[0]][pixel[1]]
+    pixelHSV = bgr2hsv(pixelBGR)
+    if pixelHSV[1] < 10:
+        if pixelHSV[2] < 12:
+            return 'black'
+        elif pixelHSV[2] > 80:
+            return 'white'
+        else:
+            return 'gray'
+    else:
+        diff = np.empty(shape=(0, 2), dtype=([('values', np.dtype(int)), ('names', type(colors.keys()))]))
 
-    cv2.drawContours(img, [c], -1, (0, 0, 255), 2, cv2.LINE_AA)
-    cv2.circle(img, (cX, cY), 4, (255, 255, 255), -1)
-
-cv2.imshow("Image thresh", img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+        for name, value in colors.items():
+            abs_diff = abs(int(pixelHSV[0]) - int(value[0]))
+            diff = np.append(diff, np.array([(abs_diff, name)], dtype=diff.dtype))
+        color = np.sort(diff)[0][1]
+        if pixelHSV[2] < 10:
+            return 'black'
+        else:
+            return color
