@@ -1,6 +1,5 @@
 import numpy as np
-from cvision.rgb2hsv import rgb2hsv, bgr2hsv
-
+from cvision.colorspace_conversion import rgb2hsv, bgr2hsv
 
 # colors in Hue Saturation Value color space
 colors = {
@@ -9,7 +8,7 @@ colors = {
     'yellow': np.array([60, 100, 100]),
     'green': np.array([120, 100, 100]),
     'blue': np.array([240, 100, 100]),
-    'violet': np.array([270, 100, 100]),
+    'violet': np.array([260, 100, 100]),
     'pink': np.array([330, 100, 100]),
     'red': np.array([360, 100, 100]),
 }
