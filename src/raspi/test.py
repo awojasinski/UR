@@ -61,7 +61,6 @@ plt.plot(hist)
 plt.xlabel('Intensywność', fontsize=10)
 plt.ylabel('Ilość pikseli', fontsize=10)
 plt.title('Histogram', fontsize=10)
-plt.
 plt.show()
 
 #img_channel = np.zeros(img.shape, dtype=img.dtype)
