@@ -7,9 +7,15 @@ def configRead(filename):
         data = config_file.read()
 
     config = json.loads(data)
+    if len(config.keys()) < 3:
+        print("There is missing values in configuration file")
 
-    for object in config['order']:
-        order = np.append(order, [object], axis=0)
+    order = np.asarray(config['objects_order'])
+    mtx = np.asarray(config['cam_calibration']['mtx'])
+    dist = np.asarray(config['cam_calibration']['dist'])
 
-    return config, order
+    if len(order) == 0:
+        print("There is no objects in list")
+
+    return config, order, mtx, dist
 
