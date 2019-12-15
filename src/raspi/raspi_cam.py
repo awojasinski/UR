@@ -7,37 +7,33 @@ from time import sleep
 
 
 camera = PiCamera()
-camera.resolution = (1920, 1080)
+camera.resolution = (640, 480)
 camera.framerate = 30
-rawCapture = PiRGBArray(camera, size=(1000, 600))
+rawCapture = PiRGBArray(camera, size=(640, 480))
 sleep(0.1)
+
+i = 0
 
 for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
 
     img = frame.array
-    img = cv.resize(img, (800, 450))
-    gray = cv.cvtColor(img, cv.COLOR_RGB2GRAY)
-    blurred = cv.GaussianBlur(gray, (5,5), 0)
-    #thresh = cv.threshold(blurred, 50, 255, cv.THRESH_BINARY)[1]
-    canny = cv.Canny(blurred, 90, 190)
-    
-    cnts = cv.findContours(canny.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-    cnts = imutils.grab_contours(cnts)
-
-    for c in cnts:
-        #M = cv.moments(c)
-        #cX = int(M["m10"] / M["m00"])
-        #cY = int(M["m01"] / M["m00"])
-
-        cv.drawContours(img, [c], -1, (0, 0, 255), 2)
-        #cv.circle(img, (cX, cY), 4, (255, 255, 255), -1)
 	
     cv.imshow("Live", img)
     key = cv.waitKey(1) & 0xFF
 	
     rawCapture.truncate(0)
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    ret, corners = cv.findChessboardCorners(gray, (7, 6), None)
+    if ret == True:
+        i = i + 1
+        cv.imwrite('\\cam_corection_photos\\' + str(i) + '.png', img)
+        print('Image no.' + str(i) + " succesfully captured!")
+        sleep(0.5)
 	
     if key == ord("q"):
     	break
+        
+
+        
 	
 

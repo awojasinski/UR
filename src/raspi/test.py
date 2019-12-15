@@ -1,10 +1,26 @@
 import cv2 as cv
 import numpy as np
+import json
 from matplotlib import pyplot as plt
 from matplotlib import pylab
 import cvision as cvis
 
 img = cv.imread('C:\\Users\\Adam\\Desktop\\CV_test_img\\11.jpg')
+
+with open('config.json', 'r') as config_file:
+    data = config_file.read()
+
+config = json.loads(data)
+order = np.asarray(config['objects_order'])
+
+print(len(order))
+for num, key in enumerate(order[0].keys()):
+    print(num)
+    print(key)
+
+config, order = cvis.configRead('config.json')
+print(config)
+print(order)
 '''
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
@@ -48,7 +64,7 @@ cv.imwrite('thresholdhsv11.jpg', threshhsv)
 threshgray = cv.threshold(gray, 150, 255, cv.THRESH_BINARY)[1]
 cv.imshow('threshold GRAY', threshgray)
 cv.imwrite('thresholdgray11.jpg', threshgray)
-'''
+
 
 img = cv.imread('C:\\Users\\Adam\\Desktop\\CV_test_img\\14.jpg')
 img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
@@ -61,7 +77,6 @@ plt.plot(hist)
 plt.xlabel('Intensywność', fontsize=10)
 plt.ylabel('Ilość pikseli', fontsize=10)
 plt.title('Histogram', fontsize=10)
-plt.
 plt.show()
 
 #img_channel = np.zeros(img.shape, dtype=img.dtype)
@@ -83,4 +98,4 @@ cv.waitKey()
 
 #plt.imshow(img)
 #plt.show()
-
+'''
