@@ -58,8 +58,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
                 if ret:
                     print('Sending coordinates of shape:', shapes_info[index])
-                    connection.sendall(cvis.tranformPos(shapes_info[index][0], T))
-                    cvis.drawElement(shapes_info[index][0], img_drawing)
+                    pos = cvis.tranformPos(shapes_info[index][0], T)
+                    connection.sendall(pos)
+                    img_drawing = cvis.drawElement(shapes_info[index], pos, img_drawing)
                     cv.imshow("Found element", img_drawing)
                     print('Waiting for response')
                     data = connection.recv(1024)
