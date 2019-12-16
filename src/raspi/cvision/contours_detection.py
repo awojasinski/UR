@@ -7,8 +7,10 @@ def contoursDetection(image, drawContours=False):
 
     # Preprocessing obrazu
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    blurred = cv.GaussianBlur(gray, (5, 5), 0)
-    thresh = cv.threshold(blurred, 70, 255, cv.THRESH_BINARY)[1]
+    hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
+    h, s, v = cv.split(hsv)
+    blurred = cv.GaussianBlur(v, (5, 5), 0)
+    thresh = cv.threshold(blurred, 130, 255, cv.THRESH_BINARY)[1]
 
     # Wykrywanie konturów na obrazie
     cnts = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
