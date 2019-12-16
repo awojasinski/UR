@@ -3,6 +3,7 @@ import cvision as cvis
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from time import sleep
+import json
 import numpy as np
 import sys
 
@@ -47,10 +48,10 @@ for frame in camera.capture_continous(rawCapture, format='bgr', use_video_port=T
         if len(shapes_info) != 1:
             print("W obszarze aktywnym kamery wykryto więcej niż jeden obiekt!")
             break
-        U = np.append(U, [shapes_info[0][0][1], shapes_info[0][0][0]], axis=0)
+        U = np.append(U, np.array([[shapes_info[0][0][1], shapes_info[0][0][0]]]), axis=0)
         x = float(input("Podaj współrzędną X: "))
         y = float(input("Podaj współrzędną Y: "))
-        X = np.append(X, [x, y], axis=0)
+        X = np.append(X, np.array([[x, y]]), axis=0)
 
         if U.shape[0] == 4 and X.shape[0] == 4:
             T = cv.findHomography(U, X)
