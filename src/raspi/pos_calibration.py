@@ -53,7 +53,7 @@ for frame in camera.capture_continous(rawCapture, format='bgr', use_video_port=T
         X = np.append(X, [x, y], axis=0)
 
         if U.shape[0] == 4 and X.shape[0] == 4:
-            T = cv.findHomoraphy(U, X)
+            T = cv.findHomography(U, X)
             areaRatio = cv.contourArea(X.astype(int)) / cv.contourArea(U.astype(int))
             print("Macierz transformacji:\n", T[0])
             config['pos_calibration']['T'] = T[0].tolist()
