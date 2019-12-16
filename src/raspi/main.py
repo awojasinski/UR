@@ -10,7 +10,7 @@ import cvision as cvis
 HOST = '192.168.1.112'
 PORT = 10000
 
-config, order, mtx, dist = cvis.config_read('config.json')
+config, order, mtx, dist, T, areaRatio = cvis.configRead('config.json')
 element = 0
 
 camera = PiCamera()
@@ -58,7 +58,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
                 if ret:
                     print('Sending coordinates of shape:', shapes_info[index])
-                    connection.sendall(shapes_info[index][0])
+                    connection.sendall(cvis.tranformPos(shapes_info[index][0], T))
                     cvis.drawElement(shapes_info[index][0], img_drawing)
                     cv.imshow("Found element", img_drawing)
                     print('Waiting for response')
