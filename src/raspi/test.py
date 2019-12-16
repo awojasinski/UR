@@ -40,6 +40,10 @@ print(realArea)
 
 print(Robot[:2])
 
+
+U = np.insert(U, 2, 1, axis=1)
+print(U)
+
 '''
 img = cv.imread('C:\\Users\\Adam\\Desktop\\CV_test_img\\11.jpg')
 
