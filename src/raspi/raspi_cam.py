@@ -21,15 +21,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     cv.imshow("Live", img)
     key = cv.waitKey(1) & 0xFF
 	
-    rawCapture.truncate(0)
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    ret, corners = cv.findChessboardCorners(gray, (7, 6), None)
-    if ret == True:
-        i = i + 1
-        cv.imwrite('\\cam_corection_photos\\' + str(i) + '.png', img)
-        print('Image no.' + str(i) + " succesfully captured!")
-        sleep(0.5)
-	
+    rawCapture.truncate(0)	
     if key == ord("q"):
     	break
         
