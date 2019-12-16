@@ -6,18 +6,6 @@ from time import sleep
 import numpy as np
 import sys
 
-def calculateTransform(U, X, config_file)
-
-    with open(config_file) as f:
-        config = json.load(f)
-
-    config['pos_calibration']['T'] = T.tolist()
-
-    with open(config_file, 'w') as f:
-        json.dump(config, f, sort_keys=True, indent=4)
-
-    return T
-
 config, order, mtx, dist = cvis.configRead('config.json')
 
 camera = PiCamera()
@@ -55,15 +43,25 @@ for frame in camera.capture_continous(rawCapture, format='bgr', use_video_port=T
 
     rawCapture.truncate(0)
     if key == 13:
+        shapes_info = cvis.objectRecognition(img, draw=False)
+        if len(shapes_info) != 1:
+            print("W obszarze aktywnym kamery wykryto więcej niż jeden obiekt!")
+            break
+        U = np.append(U, [shapes_info[0][0][1], shapes_info[0][0][0]], axis=0)
+        x = float(input("Podaj współrzędną X: "))
+        y = float(input("Podaj współrzędną Y: "))
+        X = np.append(X, [x, y], axis=0)
 
-        print("Podaj współrzędną X: ")
-        print("Podaj współrzędną Y: ")
-
-        if U.size[1] == 4 and X.size[1] == 4:
-            print("Macierz transformacji:\n", calculateTransform(U, X, 'config.json'))
+        if U.shape[0] == 4 and X.shape[0] == 4:
+            T = cv.findHomoraphy(U, X)
+            areaRatio = cv.contourArea(X.astype(int)) / cv.contourArea(U.astype(int))
+            print("Macierz transformacji:\n", T[0])
+            config['pos_calibration']['T'] = T[0].tolist()
+            config['pos_calibration']['areaRatio'] = areaRatio.tolist()
+            with open('config.json', 'w') as config_file:
+                json.dump(config, config_file, sort_keys=True, indent=4)
             cv.destroyAllWindows()
             sys.exit()
-
 
     elif key == ord('q') or key == 27:
         print("Przerwanie procesu kalibracji kamery z robotem")

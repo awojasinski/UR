@@ -41,5 +41,8 @@
             "id": 3
         }
     ],
-    "pos_calibration": {}
+    "pos_calibration": {
+        "T" : 0,
+        "areaRatio" : 0
+    }
 }
