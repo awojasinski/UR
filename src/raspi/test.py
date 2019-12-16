@@ -5,6 +5,42 @@ from matplotlib import pyplot as plt
 from matplotlib import pylab
 import cvision as cvis
 
+shapes_info = np.empty(shape=(0, 3))
+img = cv.imread('C:\\Users\\njcp6k\\Desktop\\test1.png')
+shapes_info = np.append(shapes_info, cvis.objectRecognition(img),axis=0)
+img = cv.imread('C:\\Users\\njcp6k\\Desktop\\test2.png')
+shapes_info = np.append(shapes_info, cvis.objectRecognition(img),axis=0)
+img = cv.imread('C:\\Users\\njcp6k\\Desktop\\test3.png')
+shapes_info = np.append(shapes_info, cvis.objectRecognition(img),axis=0)
+img = cv.imread('C:\\Users\\njcp6k\\Desktop\\test4.png')
+shapes_info = np.append(shapes_info, cvis.objectRecognition(img),axis=0)
+
+
+U = np.empty(shape=(0, 2))
+for point in shapes_info:
+    U = np.append(U, np.array([[point[0][1], point[0][0]]]), axis=0)
+
+X = np.array([[60., 73.], [60., 20.], [20., 20.], [20., 73.]])
+print(X.shape[0])
+print(U)
+print(X)
+
+T = cv.findHomography(U, X)
+print(T[0])
+
+P = np.array([320., 240., 1.])
+
+Robot = T[0]@P
+
+pixelArea = cv.contourArea(U.astype(int))
+realArea = cv.contourArea(X.astype(int))
+
+print(pixelArea)
+print(realArea)
+
+print(Robot[:2])
+
+'''
 img = cv.imread('C:\\Users\\Adam\\Desktop\\CV_test_img\\11.jpg')
 
 with open('config.json', 'r') as config_file:
@@ -21,7 +57,7 @@ for num, key in enumerate(order[0].keys()):
 config, order = cvis.configRead('config.json')
 print(config)
 print(order)
-'''
+
 gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 h, s, v = cv.split(img)
