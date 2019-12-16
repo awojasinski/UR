@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 from matplotlib import pylab
 import cvision as cvis
 
+'''
 shapes_info = np.empty(shape=(0, 3))
 img = cv.imread('C:\\Users\\njcp6k\\Desktop\\test1.png')
 shapes_info = np.append(shapes_info, cvis.objectRecognition(img),axis=0)
@@ -43,6 +44,9 @@ print(Robot[:2])
 
 U = np.insert(U, 2, 1, axis=1)
 print(U)
+'''
+
+config, order, mtx, dist, T, areaRatio = cvis.configRead('config.json')
 
 '''
 img = cv.imread('C:\\Users\\Adam\\Desktop\\CV_test_img\\11.jpg')
