@@ -13,12 +13,21 @@ element = 0
 
 img = cv.imread('C:\\Users\\njcp6k\\Desktop\\testing.png')
 shapes_info = cvis.objectRecognition(img, draw=False)
-ret, index = cvis.findElement(order[element], shapes_info)
-if ret:
-    pos = cvis.transformPos(shapes_info[index][0], T)
-    cvis.drawElement(shapes_info[index], pos, img)
-cv.imshow('Image', img)
-cv.waitKey(0)
+while True:
+    img = cv.imread('C:\\Users\\njcp6k\\Desktop\\testing.png')
+    ret, index = cvis.findElement(order[element], shapes_info)
+    if ret:
+        pos = cvis.transformPos(shapes_info[index][0], T)
+        cvis.drawElement(shapes_info[index], pos, img)
+    cv.imshow('Image', img)
+    key = cv.waitKey(0)
+
+    if key == ord('q'):
+        break
+    elif key == 13 and ret:
+        element = element + 1
+        if element == len(order):
+            element = 0
 
 '''
 camera = PiCamera()

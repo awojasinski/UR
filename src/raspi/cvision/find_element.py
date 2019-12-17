@@ -2,8 +2,6 @@ import numpy as np
 
 
 def findElement(object_config_info, shapes_info, areaError=0):
-    areaResult = None
-    colorResult = None
     ret = False
     index = 0
 
@@ -12,19 +10,20 @@ def findElement(object_config_info, shapes_info, areaError=0):
         areaResult = list(zip(areaResult[0], areaResult[1]))
         if len(areaResult) != 0:
             ret = True
-            index = areaResult[0]
+            index = areaResult[0][0]
 
     if 'color' in object_config_info:
         colorResult = np.where(shapes_info == np.array(object_config_info['color']))
         colorResult = list(zip(colorResult[0], colorResult[1]))
         if len(colorResult) != 0:
             ret = True
-            index = colorResult[0]
+            index = colorResult[0][0]
 
-    if 'area' and 'color' and len(colorResult) != 0 and len(areaResult) != 0 in object_config_info:
+
+    if 'area' and 'color' in object_config_info and 'colorResult' in locals() and 'areaResult' in locals():
         if colorResult[0] == areaResult[0]:
             ret = True
-            index = colorResult[0]
+            index = colorResult[0][0]
         else:
             ret = False
             index = 0
