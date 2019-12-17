@@ -4,13 +4,23 @@ import json
 from matplotlib import pyplot as plt
 from matplotlib import pylab
 import cvision as cvis
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-from time import sleep
+#from picamera.array import PiRGBArray
+#from picamera import PiCamera
+#from time import sleep
 
 config, order, mtx, dist, T, areaRatio = cvis.configRead('config.json')
 element = 0
 
+img = cv.imread('C:\\Users\\njcp6k\\Desktop\\testing.png')
+shapes_info = cvis.objectRecognition(img, draw=False)
+ret, index = cvis.findElement(order[element], shapes_info)
+if ret:
+    pos = cvis.transformPos(shapes_info[index][0], T)
+    cvis.drawElement(shapes_info[index], pos, img)
+cv.imshow('Image', img)
+cv.waitKey(0)
+
+'''
 camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 30
@@ -40,7 +50,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         print(pos)
         
     
-
+'''
 '''
 shapes_info = np.empty(shape=(0, 3))
 img = cv.imread('C:\\Users\\njcp6k\\Desktop\\test1.png')
