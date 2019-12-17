@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
-from cvision.contours_detection import *
-from cvision.color_detection import *
+from cvision.contoursDetection import *
+from cvision.colorRecognition import *
 
 
 def objectRecognition(image, draw=True):

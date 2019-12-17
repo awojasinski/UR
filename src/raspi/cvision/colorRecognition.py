@@ -1,5 +1,6 @@
 import numpy as np
-from cvision.colorspace_conversion import rgb2hsv, bgr2hsv
+from cvision.colorspaceConversion import rgb2hsv, bgr2hsv
+
 
 # colors in Hue Saturation Value color space
 colors = {
