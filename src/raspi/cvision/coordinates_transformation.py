@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def tranformPos(U, T):
+def transformPos(U, T):
     U = np.insert(U, 2, 1)
     X = T@U
 
