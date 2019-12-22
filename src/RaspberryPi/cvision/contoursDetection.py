@@ -1,17 +1,19 @@
 import cv2 as cv
 import numpy as np
 import imutils
+from matplotlib import pyplot as plt
 
 
 def contoursDetection(image, drawContours=False):
 
     # Preprocessing obrazu
-    gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    #gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
     h, s, v = cv.split(hsv)
     blurred = cv.GaussianBlur(v, (5, 5), 0)
-    thresh = cv.threshold(blurred, 130, 255, cv.THRESH_BINARY)[1]
-
+    #thresh = cv.threshold(blurred, 130, 255, cv.THRESH_BINARY)[1]
+    thresh = cv.adaptiveThreshold(blurred, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
+    cv.imshow('thresh', thresh)
     # Wykrywanie konturów na obrazie
     cnts = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)

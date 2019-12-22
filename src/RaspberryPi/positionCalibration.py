@@ -44,19 +44,22 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
 
     rawCapture.truncate(0)
     if key == 13:
-        shapes_info = cvis.objectRecognition(img, draw=False)
+        shapes_info = cvis.objectRecognition(img, draw=True)
+        cv.imshow("Live", img)
         if len(shapes_info) != 1:
             print(shapes_info)
             print("W obszarze aktywnym kamery wykryto więcej niż jeden obiekt!")
         else:
+            print(shapes_info)
             U = np.append(U, np.array([[shapes_info[0][0][1], shapes_info[0][0][0]]]), axis=0)
+            print(U)
             x = float(input("Podaj współrzędną X: "))
             y = float(input("Podaj współrzędną Y: "))
             X = np.append(X, np.array([[x, y]]), axis=0)
 
             if U.shape[0] == 4 and X.shape[0] == 4:
                 T = cv.findHomography(U, X)
-                areaRatio = cv.contourArea(X.astype(int)) / cv.contourArea(U.astype(int))
+                areaRatio = cv.contourArea(X.astype(float)) / cv.contourArea(U.astype(float))
                 print("Macierz transformacji:\n", T[0])
                 config['pos_calibration']['T'] = T[0].tolist()
                 config['pos_calibration']['areaRatio'] = areaRatio
@@ -68,6 +71,8 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     elif key == ord('q') or key == 27:
         print("Przerwanie procesu kalibracji kamery z robotem")
         break
+    
+    rawCapture.truncate(0)
 
 cv.destroyAllWindows()
 

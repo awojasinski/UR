@@ -5,7 +5,7 @@ from cvision.colorRecognition import *
 
 
 def objectRecognition(image, draw=True):
-    cnts, points = contoursDetection(image, draw)
+    cnts, points = contoursDetection(image)
 
     shapes_info = np.empty(shape=(0, 3))
 
