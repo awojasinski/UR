@@ -55,22 +55,22 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
 
     ret, index = cvis.findElement(shapes_info, order[element])
 
-        if ret:
-            print('Sending coordinates of shape:', shapes_info[index])
-            pos = cvis.tranformPos(shapes_info[index][0], T)
-            connection.sendall(pos)
-            img_drawing = cvis.drawElement(shapes_info[index], pos, img_drawing)
-            cv.imshow("Found element", img_drawing)
-            print('Waiting for response')
-            data = connection.recv(1024)
-            if data == 'OK':
-                element = element + 1
-                if element == len(order):
-                    element = 0
-            elif data == 'q':
-                print('Closing server')
-                s.close()
-                cv.destroyAllWindows()
-                sys.exit()
+    if ret:
+        print('Sending coordinates of shape:', shapes_info[index])
+        pos = cvis.tranformPos(shapes_info[index][0], T)
+        connection.sendall(pos)
+        img_drawing = cvis.drawElement(shapes_info[index], pos, img_drawing)
+        cv.imshow("Found element", img_drawing)
+        print('Waiting for response')
+        data = connection.recv(1024)
+        if data == 'OK':
+            element = element + 1
+            if element == len(order):
+                element = 0
+        elif data == 'q':
+            print('Closing server')
+            s.close()
+            cv.destroyAllWindows()
+            sys.exit()
 
     rawCapture.truncate(0)
