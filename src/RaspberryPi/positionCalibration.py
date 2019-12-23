@@ -59,10 +59,10 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
 
             if U.shape[0] == 4 and X.shape[0] == 4:
                 T = cv.findHomography(U, X)
-                areaRatio = cv.contourArea(X.astype(float)) / cv.contourArea(U.astype(float))
+                #areaRatio = cv.contourArea(X.astype(float)) / cv.contourArea(U.astype(float))
                 print("Macierz transformacji:\n", T[0])
                 config['pos_calibration']['T'] = T[0].tolist()
-                config['pos_calibration']['areaRatio'] = areaRatio
+                #config['pos_calibration']['areaRatio'] = areaRatio
                 with open('config.json', 'w') as config_file:
                     json.dump(config, config_file, sort_keys=True, indent=4)
                 cv.destroyAllWindows()

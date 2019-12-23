@@ -15,6 +15,7 @@ def findElement(object_config_info, shapes_info, areaError=0):
     if 'color' in object_config_info:
         colorResult = np.where(shapes_info == np.array(object_config_info['color']))
         colorResult = list(zip(colorResult[0], colorResult[1]))
+        print(colorResult)
         if len(colorResult) != 0:
             ret = True
             index = colorResult[0][0]
