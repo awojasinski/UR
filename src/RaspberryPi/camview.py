@@ -3,6 +3,7 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from time import sleep
 import cvision as cvis
+import socket
 
 config, order, mtx, dist, T, areaRatio = cvis.configRead('config.json')
 element = 0
@@ -13,7 +14,24 @@ camera.framerate = 30
 rawCapture = PiRGBArray(camera, size=(640, 480))
 sleep(0.1)
 
+HOST = '192.168.0.110'
+PORT = 10000
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((HOST, PORT))
+s.listen(5)
+
+print('Server |%s|%d|' %(HOST, PORT))
+
+connection, client_addr = s.accept()
+
+print('Connection from: ', client_addr)
+
+
 for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+    
+    
+    
 
     img = frame.array
 
@@ -26,7 +44,8 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     img = img[y:y+h, x:x+w]
     cv.imshow("Live", img)
 
-    key = cv.waitKey()
+    key = cv.waitKey(1) & 0xFF
+    rawCapture.truncate(0)
     if key == ord('q'):
         cv.destroyAllWindows()
         break
@@ -38,18 +57,19 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         print('---------------------')
         print(shapes_info)
         print('---------------------\n')
-        ret, index = cvis.findElement(shapes_info, order[element])
+        ret, index = cvis.findElement(order[element],shapes_info)
         print('---------------------')
         print("ret value: ", ret)
         print('index: ', index)
 
         if ret:
             print('object info: ', shapes_info[index])
-            pos = cvis.tranformPos(shapes_info[index][0], T)
+            pos = cvis.transformPos(shapes_info[index][0], T)
             print('Robot position', pos)
             element = element + 1
+            connection.send('(-0.437, -0.545, 0.537, 0, 3.14, 0)'.encode('ascii'))
 
             if element == len(order):
                 element = 0
         
-    rawCapture.truncate(0)
+    
