@@ -1,9 +1,9 @@
 import socket
 import numpy as np
 import struct
-import cvis
 
-HOST = '192.168.1.113'
+
+HOST = '192.168.0.110'
 PORT = 10000
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -15,15 +15,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     connection, client_addr = s.accept()
 
     print('Connection from: ', client_addr)
-
-    pos = np.empty(shape=(0, 2), dtype=np.float32)
-
-    pos[0] = input("Współrzędna X: ")
-    pos[1] = input("Współrzędna Y: ")
-    data = "(" + str(pos[0]) + "," + str(pos[1]) + ")"
-
-    connection.send(data)
-
     msg = connection.recv(1024)
     print("Recived: ", msg)
+    connection.send('(-0.437, -0.545, 0.537, 0, 3.14, 0)'.encode('ascii'))
 
