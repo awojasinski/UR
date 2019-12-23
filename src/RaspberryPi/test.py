@@ -1,46 +1,40 @@
 import cv2 as cv
 import cvision as cvis
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+from matplotlib import pyplot as plt
+#from picamera.array import PiRGBArray
+#from picamera import PiCamera
 from time import sleep
 import json
 import numpy as np
 import sys
 
-config, order, mtx, dist, T, areaRatio = cvis.configRead('config.json')
+for i in range(26):
+    img = cv.imread('camera_images\\' + str(i) + '.png')
+    gray = cv.imread('camera_images\\' + str(i) + '.png', 0)
 
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 30
-rawCapture = PiRGBArray(camera, size=(640, 480))
-sleep(0.1)
+    hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+    h, s, v = cv.split(hsv)
+    '''
+    cv.imshow('original', img)
+    cv.imshow('value', v)
 
-i = 0
+    hist_v = cv.calcHist([v], [0], None, [256], [0, 256])
+    plt.plot(hist_v)
+    plt.title('value')
+    plt.show()
 
-for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
-    img = frame.array
-    height, width = img.shape[:2]
-    newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (width, height), 1, (width, height))
+    clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+    clv = clahe.apply(v)
+    hist_cv = cv.calcHist([clv], [0], None, [256], [0, 256])
+    plt.plot(hist_cv)
+    plt.title('clahe value')
+    plt.show()
 
-    img = cv.undistort(img, mtx, dist, None, newcameramtx)
+    thresh = cv.threshold(v, 190, 255, cv.THRESH_BINARY)[1]
+    cv.imshow('thresh', thresh)
+    '''
+    shapes_info = cvis.objectRecognition(img, True)
 
-    x, y, w, h = roi
-    img = img[y:y + h, x:x + w]
-
-    cv.imshow("Live", img)
-    key = cv.waitKey(1) & 0xFF
-    
-    if key == 13:
-        cv.imwrite(str(i)+'.png', img)
-        i = i +1
-        
-    if key == ord('q'):
-         cv.destroyAllWindows()
-         break
-        
-    rawCapture.truncate(0)
-
-        
-        
-        
-
+    cv.imshow('recognized', img)
+    print(shapes_info)
+    cv.waitKey()

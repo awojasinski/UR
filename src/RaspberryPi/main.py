@@ -41,7 +41,7 @@ print('Connection from: ', client_addr)
 for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
 
     img = frame.array
-    cv.imshow("Live", img)
+
     height, width = img.shape[:2]
     newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (width, height), 1, (width, height))
 
@@ -49,18 +49,26 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
 
     x, y, w, h = roi
     img = img[y:y+h, x:x+w]
-
+    cv.imshow("Live", img)
     img_drawing = img.copy()
     shapes_info = cvis.objectRecognition(img_drawing)
 
+    print('---------------------')
+    print(shapes_info)
+    print('---------------------\n')
+
     ret, index = cvis.findElement(shapes_info, order[element])
+
+    if not ret:
+        print("Object not found")
 
     if ret:
         print('Sending coordinates of shape:', shapes_info[index])
         pos = cvis.tranformPos(shapes_info[index][0], T)
-        connection.sendall(pos)
+        connection.sendall("(" + pos[0] + ',' + pos[1] + ")")
         img_drawing = cvis.drawElement(shapes_info[index], pos, img_drawing)
         cv.imshow("Found element", img_drawing)
+        cv.imwrite(str(element)+'.png', img_drawing)
         print('Waiting for response')
         data = connection.recv(1024)
         if data == 'OK':
