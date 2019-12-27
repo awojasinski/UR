@@ -2,7 +2,7 @@ import cv2 as cv
 
 
 def drawElement(shape_info, position, img):
-    s = "X=" + str(round(position[0], 2)) + "mm(" + str(shape_info[0][1]) + "px)\nY=" + str(round(position[1], 2)) + "mm(" + str(shape_info[0][0]) + "px)"
+    s = "X=" + str(round(position[0], 2)) + "m(" + str(shape_info[0][1]) + "px)\nY=" + str(round(position[1], 2)) + "m(" + str(shape_info[0][0]) + "px)"
 
     cv.circle(img, (shape_info[0][1], shape_info[0][0]), 2, (255, 255, 255))
 

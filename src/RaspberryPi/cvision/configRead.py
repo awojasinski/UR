@@ -14,10 +14,10 @@ def configRead(filename):
     mtx = np.asarray(config['cam_calibration']['mtx'])
     dist = np.asarray(config['cam_calibration']['dist'])
     T = np.asarray(config['pos_calibration']['T'])
-    areaRatio = config['pos_calibration']['areaRatio']
+    distRatio = config['pos_calibration']['distRatio']
 
     if len(order) == 0:
         print("There is no objects in list")
 
-    return config, order, mtx, dist, T, areaRatio
+    return config, order, mtx, dist, T, distRatio
 

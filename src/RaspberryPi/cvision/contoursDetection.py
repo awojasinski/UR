@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 import imutils
-from matplotlib import pyplot as plt
 
 
 def contoursDetection(image, drawContours=False):

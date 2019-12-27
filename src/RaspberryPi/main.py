@@ -1,5 +1,4 @@
 import cv2 as cv
-import numpy as np
 import socket
 import sys
 from picamera.array import PiRGBArray
@@ -10,8 +9,9 @@ import cvision as cvis
 HOST = '192.168.1.113'
 PORT = 10000
 
-config, order, mtx, dist, T, areaRatio = cvis.configRead('config.json')
+config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
 element = 0
+objectHeight = 0
 
 camera = PiCamera()
 camera.resolution = (640, 480)
@@ -57,7 +57,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     print(shapes_info)
     print('---------------------\n')
 
-    ret, index = cvis.findElement(shapes_info, order[element])
+    ret, index = cvis.findElement(order[element], shapes_info)
 
     if not ret:
         print("Object not found")
@@ -65,14 +65,14 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     if ret:
         print('Sending coordinates of shape:', shapes_info[index])
         pos = cvis.tranformPos(shapes_info[index][0], T)
-        connection.sendall("(" + pos[0] + ',' + pos[1] + ")")
+        connection.sendall(("(" + str(round(pos[0], 3)) + ', ' + str(round(pos[1], 3)) + ", " + str(objectHeight) + ", 0, 3.14, 0)").encode('ascii'))
         img_drawing = cvis.drawElement(shapes_info[index], pos, img_drawing)
         cv.imshow("Found element", img_drawing)
         cv.imwrite(str(element)+'.png', img_drawing)
         print('Waiting for response')
-        data = connection.recv(1024)
+        data = connection.recv(1024).decode('ascii')
         if data == 'OK':
-            element = element + 1
+            element += 1
             if element == len(order):
                 element = 0
         elif data == 'q':
