@@ -42,15 +42,15 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     img = cv.undistort(img, mtx, dist, None, newcameramtx)
 
     x, y, w, h = roi
-    img = img[y:y + h, x:x + w]
+    img = img[y:y + h, x:x + w] # Zastanowić się czy bez będzie lepiej?
 
-    cv.imshow("Live", img)
+    cv.imshow("chess", img)
     key = cv.waitKey(1) & 0xFF
 
-    rawCapture.truncate(0)
+    
     if key == 13:
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        ret, corners = cv.findChessboardCorners(gray, (9, 6), None)
+        ret, corners = cv.findChessboardCorners(gray, (9, 6), None) # Wilekość tablicy podawana przez użytkownika
         if ret:
             U[0] = corners[np.where(corners[0:len(corners), 0] == max(corners[0:len(corners), 0, 0]))[0]]
             U[1] = corners[np.where(corners[0:len(corners), 0] == max(corners[0:len(corners), 0, 1]))[0]]

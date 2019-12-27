@@ -9,6 +9,14 @@ import json
 import numpy as np
 import sys
 
+config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
+
+U = [463, 234]
+X = cvis.transformPos(U, T)
+
+print(X)
+
+'''
 #img = cv.imread()
 
 config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
@@ -48,7 +56,7 @@ print(D)
 
 cv.waitKey(0)
 
-
+'''
 
 '''
 for i in range(26):

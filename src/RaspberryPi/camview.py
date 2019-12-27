@@ -9,7 +9,7 @@ import socket
 # z pliku konfiguracyjnego, ustawienie wskaźnika element na pierwszą wartość
 config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
 element = 0
-objectHeight = 0
+objectHeight = 0.204
 
 # Początkowe ustawienia kamery
 camera = PiCamera()
@@ -79,7 +79,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
             print('Robot position', pos)
             element += 1    # Inkrementacja wskaźnika
             # Wysłanie do robota UR5 współrzędnych punktu w którym znajduje się obiekt
-            connection.send(('('+str(round(pos[0], 3))+', '+str(round(pos[1], 3))+', '+str(objectHeight)+', 0, 3.14, 0)').encode('ascii'))
+            connection.send(('('+str(pos[0])+', '+str(pos[1])+', '+str(objectHeight)+', 0, 3.14, 0)').encode('ascii'))
             data = connection.recv(1024).decode('ascii')
 
             if element == len(order):

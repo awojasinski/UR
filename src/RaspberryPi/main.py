@@ -6,12 +6,12 @@ from picamera import PiCamera
 from time import sleep
 import cvision as cvis
 
-HOST = '192.168.1.113'
+HOST = '192.168.0.110'
 PORT = 10000
 
 config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
 element = 0
-objectHeight = 0
+objectHeight = 0.204
 
 camera = PiCamera()
 camera.resolution = (640, 480)
