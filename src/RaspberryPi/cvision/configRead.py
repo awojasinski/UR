@@ -13,11 +13,12 @@ def configRead(filename):
     order = np.asarray(config['objects_order'])
     mtx = np.asarray(config['cam_calibration']['mtx'])
     dist = np.asarray(config['cam_calibration']['dist'])
+    thresholdValue = config['cam_calibration']['thresholdValue']
     T = np.asarray(config['pos_calibration']['T'])
     distRatio = config['pos_calibration']['distRatio']
 
     if len(order) == 0:
         print("There is no objects in list")
 
-    return config, order, mtx, dist, T, distRatio
+    return config, order, mtx, dist, T, distRatio, thresholdValue
 

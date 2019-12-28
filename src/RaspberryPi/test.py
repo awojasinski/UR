@@ -19,7 +19,7 @@ print(X)
 '''
 #img = cv.imread()
 
-config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
+config, order, mtx, dist, T, distRatio, thresholdValue = cvis.configRead('config.json')
 height, width = img.shape[:2]
 newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (width, height), 1, (width, height))
 

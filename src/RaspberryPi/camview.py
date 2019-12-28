@@ -7,7 +7,7 @@ import socket
 
 # Pobranie danych o kamerze, macierzy homografii oraz kolejności podawania elementów
 # z pliku konfiguracyjnego, ustawienie wskaźnika element na pierwszą wartość
-config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
+config, order, mtx, dist, T, distRatio, thresholdValue = cvis.configRead('config.json')
 element = 0
 objectHeight = 0.204
 

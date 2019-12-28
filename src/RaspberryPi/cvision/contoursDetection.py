@@ -1,12 +1,14 @@
 import cv2 as cv
 import numpy as np
 import imutils
+from cvision.configRead import *
 
 
 def contoursDetection(image, drawContours=False):
 
+    config, order, mtx, dist, T, distRatio, thresholdValue = configRead('config.json')
+
     # Preprocessing obrazu
-    #gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
     h, s, v = cv.split(hsv)
     blurred = cv.GaussianBlur(v, (5, 5), 0)

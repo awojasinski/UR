@@ -1,6 +1,9 @@
 
-def rgb2hsv(pixelRGB):
-    r, g, b = (pixelRGB) / 255.0
+def rgb2hsv(r, g, b):
+
+    r = r / 255.0
+    g = g / 255.0
+    b = b / 255.0
 
     cmax = max(r, b, g)
     cmin = min(r, b, g)
