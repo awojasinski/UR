@@ -4,8 +4,9 @@ from cvision.contoursDetection import *
 from cvision.colorRecognition import *
 from cvision.configRead import *
 
+
 def objectRecognition(image, draw=True):
-    config, order, mtx, dist, T, distRatio = configRead('config.json')
+    config, order, mtx, dist, T, distRatio, thresholdValue = configRead('config.json')
     cnts, points = contoursDetection(image)
 
     shapes_info = np.empty(shape=(0, 3))

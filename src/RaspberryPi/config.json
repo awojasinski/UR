@@ -1,5 +1,6 @@
 {
     "cam_calibration": {
+        "thresholdValue": 195,
         "dist": [
             [
                 -0.537966463149411,

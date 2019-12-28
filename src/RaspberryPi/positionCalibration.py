@@ -14,7 +14,7 @@ def distance(pointA, pointB):
     return dist
 
 
-config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
+config, order, mtx, dist, T, distRatio, thresholdValue = cvis.configRead('config.json')
 
 camera = PiCamera()
 camera.resolution = (640, 480)

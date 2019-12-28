@@ -9,7 +9,7 @@ import cvision as cvis
 HOST = '192.168.1.113'
 PORT = 10000
 
-config, order, mtx, dist, T, distRatio = cvis.configRead('config.json')
+config, order, mtx, dist, T, distRatio, thresholdValue = cvis.configRead('config.json')
 element = 0
 objectHeight = 0
 
