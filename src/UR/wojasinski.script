@@ -1,0 +1,73 @@
+def wojasinski():
+  modbus_add_signal("127.0.0.1", 255, 21, 2, "dell")
+  modbus_set_signal_update_frequency("dell", 10)
+  set_analog_inputrange(0, 0)
+  set_analog_inputrange(1, 0)
+  set_analog_inputrange(2, 0)
+  set_analog_inputrange(3, 0)
+  set_analog_outputdomain(0, 1)
+  set_analog_outputdomain(1, 1)
+  set_tool_voltage(24)
+  set_runstate_outputs([])
+  set_payload(0.0)
+  set_gravity([0.0, 0.0, 9.82])
+  HomePos=p[0.04491453254227456,-0.11101855897770636,0.5454491668614414,3.1415926533971152,3.4003315327405286E-5,-7.375966160940557E-6]
+  varmsg("HomePos",HomePos)
+  HomePosition=p[0, 0, 0, 0, 0, 0]
+  varmsg("HomePosition",HomePosition)
+  TempPoint=[0, 0, 0, 0, 0, 0, 0]
+  varmsg("TempPoint",TempPoint)
+  WorkPos=p[0.4428599770356183,-0.38194128030725677,0.46611340952618363,-3.141563542919071,-1.1957305855076658E-7,3.823940045498195E-6]
+  varmsg("WorkPos",WorkPos)
+  $ 1 "BeforeStart"
+  $ 2 "HomePosition≔HomePos"
+  global HomePosition = p[0.04491453254227456,-0.11101855897770636,0.5454491668614414,3.1415926533971152,3.4003315327405286E-5,-7.375966160940557E-6]
+  varmsg("HomePosition",HomePosition)
+  $ 3 "WorkPosition≔WorkPos"
+  global WorkPosition = p[0.4428599770356183,-0.38194128030725677,0.46611340952618363,-3.141563542919071,-1.1957305855076658E-7,3.823940045498195E-6]
+  varmsg("WorkPosition",WorkPosition)
+  $ 4 "ObjectPos≔p[0,0,0,0,3.1413,0]"
+  global ObjectPos = p[0,0,0,0,3.1413,0]
+  varmsg("ObjectPos",ObjectPos)
+  $ 5 "TempPoint≔[0,0,0,0,0,0,0]"
+  global TempPoint = [0,0,0,0,0,0,0]
+  varmsg("TempPoint",TempPoint)
+  $ 6 "socket_open('192.168.0.110', 10000)"
+  socket_open("192.168.0.110", 10000)
+  $ 7 "MoveP"
+  $ 8 "HomePosition"
+  movep(HomePosition, a=1.2, v=0.25, r=0.025)
+  while (True):
+    $ 9 "Robot Program"
+    $ 10 "TempPoint = socket_read_ascii_float(6)"
+    TempPoint = socket_read_ascii_float(6)
+    $ 11 "If TempPoint[0]==6"
+    if (TempPoint[0]==6):
+      $ 12 "ObjectPos[0] = TempPoint[1]"
+      ObjectPos[0] = TempPoint[1]
+      $ 13 "ObjectPos[1] = TempPoint[2]"
+      ObjectPos[1] = TempPoint[2]
+      $ 14 "ObjectPos[2] = TempPoint[3]"
+      ObjectPos[2] = TempPoint[3]
+      $ 15 "ObjectPos[3] = 0"
+      ObjectPos[3] = 0
+      $ 16 "ObjectPos[4] = 3.1413"
+      ObjectPos[4] = 3.1413
+      $ 17 "ObjectPos[5] = 0"
+      ObjectPos[5] = 0
+      $ 18 "MoveJ"
+      $ 19 "ObjectPos"
+      movel(ObjectPos, a=0.017453292519943295, v=0.06981317007977318)
+      $ 20 "Wait: 0.5"
+      sleep(0.5)
+      $ 21 "WorkPosition"
+      movel(WorkPosition, a=0.017453292519943295, v=0.06981317007977318)
+      $ 22 "Wait: 2.0"
+      sleep(2.0)
+      $ 23 "HomePosition"
+      movel(HomePosition, a=0.017453292519943295, v=0.06981317007977318)
+      $ 24 "socket_send_string('OK')"
+      socket_send_string("OK")
+    end
+  end
+end

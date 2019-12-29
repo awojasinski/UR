@@ -1,0 +1,25 @@
+ Program
+   BeforeStart
+     HomePosition≔HomePos
+     WorkPosition≔WorkPos
+     ObjectPos≔p[0,0,0,0,3.1413,0]
+     TempPoint≔[0,0,0,0,0,0,0]
+     socket_open("192.168.0.110", 10000)
+     MoveP
+       HomePosition
+   Robot Program
+     TempPoint = socket_read_ascii_float(6)
+     If TempPoint[0]==6
+       ObjectPos[0] = TempPoint[1]
+       ObjectPos[1] = TempPoint[2]
+       ObjectPos[2] = TempPoint[3]
+       ObjectPos[3] = 0
+       ObjectPos[4] = 3.1413
+       ObjectPos[5] = 0
+       MoveJ
+         ObjectPos
+         Wait: 0.5
+         WorkPosition
+         Wait: 2.0
+         HomePosition
+       socket_send_string("OK")
