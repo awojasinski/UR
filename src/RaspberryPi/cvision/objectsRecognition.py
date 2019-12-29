@@ -6,7 +6,21 @@ from cvision.configRead import *
 
 
 def objectRecognition(image, draw=True):
-    config, order, mtx, dist, T, distRatio, thresholdValue = configRead('config.json')
+    dir = ""
+    path = os.getcwd()
+    if '/' in path:
+        path = path.split('/')
+        path.pop()
+        for p in path:
+            dir = dir + p + '/'
+    if '\\' in path:
+        path = path.split('\\')
+        path.pop()
+        for p in path:
+            dir = dir + p + '\\'
+            
+    config, order, mtx, dist, T, distRatio, thresholdValue = configRead(dir+'config.json')
+
     cnts, points = contoursDetection(image)
 
     shapes_info = np.empty(shape=(0, 3))

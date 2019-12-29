@@ -1,18 +1,31 @@
 import cv2 as cv
 import numpy as np
 import imutils
+import os
 from cvision.configRead import *
 
 
 def contoursDetection(image, drawContours=False):
-
-    config, order, mtx, dist, T, distRatio, thresholdValue = configRead('config.json')
+    dir = ""
+    path = os.getcwd()
+    if '/' in path:
+        path = path.split('/')
+        path.pop()
+        for p in path:
+            dir = dir + p + '/'
+    if '\\' in path:
+        path = path.split('\\')
+        path.pop()
+        for p in path:
+            dir = dir + p + '\\'
+            
+    config, order, mtx, dist, T, distRatio, thresholdValue = configRead(dir+'config.json')
 
     # Preprocessing obrazu
     hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
     h, s, v = cv.split(hsv)
     blurred = cv.GaussianBlur(v, (5, 5), 0)
-    thresh = cv.threshold(blurred, 195, 255, cv.THRESH_BINARY)[1] # Pobierane z pliku konfiguracyjnego
+    thresh = cv.threshold(blurred, thresholdValue, 255, cv.THRESH_BINARY)[1] # Pobierane z pliku konfiguracyjnego
     #thresh = cv.adaptiveThreshold(blurred, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
     cv.imshow('thresh', thresh)
     # Wykrywanie konturów na obrazie
