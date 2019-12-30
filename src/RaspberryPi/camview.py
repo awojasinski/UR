@@ -77,10 +77,10 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
             print('object info: ', shapes_info[index])
             pos = cvis.transformPos(shapes_info[index][0], T)   # Obliczenie połorzenia obiektu w przestrzeni robota z macierzy homografii
             print('Robot position', pos)
-            element += 1    # Inkrementacja wskaźnika
             # Wysłanie do robota UR5 współrzędnych punktu w którym znajduje się obiekt
             connection.send(('('+str(pos[0])+', '+str(pos[1])+', '+str(objectHeight)+', 0, 3.14, 0)').encode('ascii'))
-            data = connection.recv(1024).decode('ascii')
-
+            data = connection.recv(1024).decode('ascii')    # Odebranie informacji od robota
+            if data == 'OK':
+                element += 1  # Inkrementacja wskaźnika
             if element == len(order):
                 element = 0

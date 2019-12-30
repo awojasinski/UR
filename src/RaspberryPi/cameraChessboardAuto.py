@@ -13,6 +13,10 @@ sleep(0.1)
 
 i = 0   # Zmienna do numerowania uchwyconych zdjęć szachownicy
 
+heigth = int(input("Podaj ilość narożników szachownicy w pionie na szukanej tablicy kalibracyjnej: "))
+width = int(input("Podaj ilość narożników szachownicy w poziomie na szukanej tablicy kalibracyjnej: "))
+dim = (heigth, width)
+
 for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
 
     # Trójwymiarowa macierz o wymiarach szerokość, wysokość i kanał koloru
@@ -22,7 +26,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
 
     cv.imshow('Camera', img)    # Wyświetlenie okna z podglądem obrazu
 
-    ret, corners = cv.findChessboardCorners(gray, (7, 6), None)     # Szukanie szachownicy
+    ret, corners = cv.findChessboardCorners(gray, dim, None)     # Szukanie szachownicy
 
     if ret:  # Jeśli wykryto w kadrze szachownicę
         print('Wykonano zdjęcie nr:', i)    # Wyświetlenie informacji o wykonaniu zdjęcia

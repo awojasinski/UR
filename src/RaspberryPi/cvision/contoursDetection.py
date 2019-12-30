@@ -6,8 +6,8 @@ from cvision.configRead import *
 
 
 def contoursDetection(image, drawContours=False):
-    dir = ""
-    path = os.getcwd()
+    dir = ""    # Zainicjalizowanie zmiennej przechowywującej ścieżkę do katalogu
+    path = os.getcwd()      # Odczytanie scieżki w której znajduje się skrypt
     if '/' in path:
         path = path.split('/')
         path.pop()
@@ -19,20 +19,19 @@ def contoursDetection(image, drawContours=False):
         for p in path:
             dir = dir + p + '\\'
             
-    config, order, mtx, dist, T, distRatio, thresholdValue = configRead(dir+'config.json')
+    config, order, mtx, dist, T, distRatio, thresholdValue = configRead(dir+'config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
 
     # Preprocessing obrazu
-    hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)
-    h, s, v = cv.split(hsv)
-    blurred = cv.GaussianBlur(v, (5, 5), 0)
-    thresh = cv.threshold(blurred, thresholdValue, 255, cv.THRESH_BINARY)[1] # Pobierane z pliku konfiguracyjnego
-    #thresh = cv.adaptiveThreshold(blurred, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
+    hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)  # Zmiana przestrzenii barw obrazu
+    h, s, v = cv.split(hsv)     # Rozdzielenie kanałów obrazu na osobne zmienne
+    blurred = cv.GaussianBlur(v, (5, 5), 0)     # Rozmycie obrazu
+    thresh = cv.threshold(blurred, thresholdValue, 255, cv.THRESH_BINARY)[1]    # Binaryzacja obrazu przy użyciu zmiennej z pliku kalibracyjnego
     cv.imshow('thresh', thresh)
     # Wykrywanie konturów na obrazie
     cnts = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
 
-    # Inicjalizacja tablicy centroidów
+    # Inicjalizacja tablicy dla punktów centralnych
     center_points = np.empty(shape=(0, 2), dtype=int)
 
     for c in cnts:
@@ -46,6 +45,6 @@ def contoursDetection(image, drawContours=False):
         center_points = np.append(center_points, [[y, x]], axis=0)  # Dodanie nowych współrzędnych do tablicy
 
         if drawContours:
-            cv.drawContours(image, [c], -1, (0, 0, 255), 2)
+            cv.drawContours(image, [c], -1, (0, 0, 255), 2)     # Rysowanie konturów na obrazie
 
     return cnts, center_points
