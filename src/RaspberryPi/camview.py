@@ -7,9 +7,8 @@ import socket
 
 # Pobranie danych o kamerze, macierzy homografii oraz kolejności podawania elementów
 # z pliku konfiguracyjnego, ustawienie wskaźnika element na pierwszą wartość
-config, order, mtx, dist, T, distRatio, thresholdValue = cvis.configRead('config.json')
+config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = cvis.configRead('config.json')
 element = 0
-objectHeight = 0.204
 i = 0
 
 # Początkowe ustawienia kamery
@@ -81,7 +80,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
             pos = cvis.transformPos(shapes_info[index][0], T)   # Obliczenie połorzenia obiektu w przestrzeni robota z macierzy homografii
             print('Robot position', pos)
             # Wysłanie do robota UR5 współrzędnych punktu w którym znajduje się obiekt
-            connection.send(('('+str(pos[0])+', '+str(pos[1])+', '+str(objectHeight)+', ' + shapes_info[index][1] + ', 3.14, 0)').encode('ascii'))
+            connection.send(('('+str(pos[1])+', '+str(pos[0])+', '+str(objectHeight)+', ' + str(shapes_info[index][1]) + ', 3.14, 0)').encode('ascii'))
             data = connection.recv(1024).decode('ascii')    # Odebranie informacji od robota
             if data == 'OK':
                 element += 1  # Inkrementacja wskaźnika

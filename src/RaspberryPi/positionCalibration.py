@@ -66,11 +66,13 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)  # Zamiana przestrzenii barw BGR na skalę szarości
         ret, corners = cv.findChessboardCorners(gray, dim, None)    # Wykrycie planszy kalibracyjnej na obrazie
         if ret:
+            cv.imwrite('pos_calibration_plain.png', img)
             # Przypisanie do macierzy skrajnych punktów planszy kaliracyjnej
             U[0] = corners[np.where(corners[0:len(corners), 0] == max(corners[0:len(corners), 0, 0]))[0]]
             U[1] = corners[np.where(corners[0:len(corners), 0] == max(corners[0:len(corners), 0, 1]))[0]]
             U[2] = corners[np.where(corners[0:len(corners), 0] == min(corners[0:len(corners), 0, 0]))[0]]
             U[3] = corners[np.where(corners[0:len(corners), 0] == min(corners[0:len(corners), 0, 1]))[0]]
+            print(U)
             # Narysowanie na obrazie położeń oraz numerów poszczególnych punktów kalibracyjnych
             for num, cnt in enumerate(U):
                 cv.circle(img, (int(cnt[0]), int(cnt[1])), 5, (0, 0, 255), 3)
@@ -79,10 +81,11 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
             cv.imwrite('pos_calibration.png', img)
             # Pętla przypisująca współrzędne punktów w przestrzenii robota
             for num, point in enumerate(X):
-                point[0] = float(input('Współrzędna X punktu nr ' + str(num + 1) + ':')) / 1000
-                point[1] = float(input('Współrzędna Y punktu nr ' + str(num + 1) + ':')) / 1000
+                point[1] = float(input('Współrzędna X punktu nr ' + str(num + 1) + ':')) / 1000
+                point[0] = float(input('Współrzędna Y punktu nr ' + str(num + 1) + ':')) / 1000
 
-            T = cv.findHomography(U, X) # Obliczenie macierzy homografii kamera -> robot
+            T = cv.findHomography(U, X)# Obliczenie macierzy homografii kamera -> robot
+            print(X)
             distRatio = float(distance(X[0], X[2]) / distance(U[0], U[2]))  # Obliczenie współczynnika proporcjonalności długości
             print("Macierz homografii:\n", T[0])
             # Zapisanie obliczonych wartości do pliku konfiguracyjnego

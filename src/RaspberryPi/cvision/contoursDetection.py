@@ -20,7 +20,7 @@ def contoursDetection(image, drawContours=False):
         for p in path:
             dir = dir + p + '\\'
             
-    config, order, mtx, dist, T, distRatio, thresholdValue = configRead(dir+'config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
+    config, order, mtx, dist, T, distRatio, thresholdValue, objectHeigth = configRead('config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
 
     # Preprocessing obrazu
     hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)  # Zmiana przestrzenii barw obrazu
@@ -47,7 +47,7 @@ def contoursDetection(image, drawContours=False):
         else:
             x = 0
             y = 0
-        center_points = np.append(center_points, [[y, x, theta]], axis=0)  # Dodanie nowych współrzędnych do tablicy
+        center_points = np.append(center_points, [[x, y, theta]], axis=0)  # Dodanie nowych współrzędnych do tablicy
 
         if drawContours:
             cv.drawContours(image, [c], -1, (0, 0, 255), 2)     # Rysowanie konturów na obrazie
