@@ -10,6 +10,7 @@ import socket
 config, order, mtx, dist, T, distRatio, thresholdValue = cvis.configRead('config.json')
 element = 0
 objectHeight = 0.204
+i = 0
 
 # Początkowe ustawienia kamery
 camera = PiCamera()
@@ -64,6 +65,8 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         s = input('Nazwa zdjęcia: ')
         cv.imwrite(s+'.png', img)
     elif key == ord('c'):   # Jeśli wciśnięty klawisz to 'c' rozpocznie się wyszukiwanie obiektu
+        cv.imwrite(str(i)+'.png', img)
+        i += 1
         shapes_info = cvis.objectRecognition(img)   # Funkcja zwraca tablicę z informacjami o znalezioncyh obiektach
         print('---------------------')
         print(shapes_info)
