@@ -74,7 +74,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         print('Sending coordinates of shape:', shapes_info[index])
         pos = cvis.transformPos(shapes_info[index][0], T)  # Obliczenie połorzenia obiektu w przestrzeni robota z macierzy homografii
         # Wysłanie do robota UR5 współrzędnych punktu w którym znajduje się obiekt
-        connection.sendall(("(" + str(round(pos[0], 3)) + ', ' + str(round(pos[1], 3)) + ", " + str(objectHeight) + ", 0, 3.14, 0)").encode('ascii'))
+        connection.sendall(("(" + str(round(pos[0], 3)) + ', ' + str(round(pos[1], 3)) + ", " + str(objectHeight) + ", " + shapes_info[index][1] + ", 3.14, 0)").encode('ascii'))
         img_drawing = cvis.drawElement(shapes_info[index], pos, img_drawing)    # Zapisanie na obrazie informacji o wykrytym obiekcie
         cv.imshow("Found element", img_drawing)
         cv.imwrite(str(element)+'.png', img_drawing)    # Zapisanie obrazu

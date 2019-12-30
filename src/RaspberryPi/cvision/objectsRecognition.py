@@ -23,13 +23,13 @@ def objectRecognition(image, draw=True):
 
     cnts, points = contoursDetection(image)     # Wykrywanie konturów na obrazie przekazanym jako argument
 
-    shapes_info = np.empty(shape=(0, 3))        # Inicjalizacja tablicy przechowywującej dane o znalezionych obiektach
+    shapes_info = np.empty(shape=(0, 4))        # Inicjalizacja tablicy przechowywującej dane o znalezionych obiektach
 
     # Pętla dla każdego wykrytego obiektu
     for point, cnt in zip(points, cnts):
         color = colorRecognition(image, cnt)    # Wykrycie koloru danego konturu
-        # Zapis informacji do talblicy [[X, Y], kolor, pole powierzchnii]
-        shapes_info = np.append(shapes_info, [[point, color, cv.contourArea(cnt)*(distRatio**2)]], axis=0)
+        # Zapis informacji do talblicy [[X, Y, theta], kolor, pole powierzchnii]
+        shapes_info = np.append(shapes_info, [[[point[0], point[1]], point[2], color, cv.contourArea(cnt)*(distRatio**2)]], axis=0)
         # Funkcje rysujące do przedstawienia informacji o obiektach
         if draw:
             cv.drawContours(image, [cnt], -1, (255, 255, 255), 2)

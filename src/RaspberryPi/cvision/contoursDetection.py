@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 import imutils
+import math
 import os
 from cvision.configRead import *
 
@@ -32,17 +33,21 @@ def contoursDetection(image, drawContours=False):
     cnts = imutils.grab_contours(cnts)
 
     # Inicjalizacja tablicy dla punktów centralnych
-    center_points = np.empty(shape=(0, 2), dtype=int)
+    center_points = np.empty(shape=(0, 3), dtype=int)
 
     for c in cnts:
         m = cv.moments(c)  # Obliczenie momentów geometrycznych
         if m["m00"] != 0:
             x = int(m["m10"] / m["m00"])    # Obliczenie współrzędnej X
             y = int(m["m01"] / m["m00"])    # Obliczenie współrzędnej Y
+            u20 = m['m20'] / m['m00'] - x*x
+            u02 = m['m02'] / m['m00'] - y*y
+            u11 = m['m11'] / m['m00'] - x*y
+            theta = 0.5 * math.atan(2*u11 / (u20 - u02))
         else:
             x = 0
             y = 0
-        center_points = np.append(center_points, [[y, x]], axis=0)  # Dodanie nowych współrzędnych do tablicy
+        center_points = np.append(center_points, [[y, x, theta]], axis=0)  # Dodanie nowych współrzędnych do tablicy
 
         if drawContours:
             cv.drawContours(image, [c], -1, (0, 0, 255), 2)     # Rysowanie konturów na obrazie
