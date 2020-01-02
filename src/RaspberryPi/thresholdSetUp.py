@@ -65,6 +65,7 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     key = cv.waitKey(1) & 0xFF
 
     if key == 13:
+        cv.imwrite('threshold_setup.png', vertical_img)
         config['cam_calibration']['thresholdValue'] = thresholdValue    # Zapisanie zmiennej do pliku konfiguracyjnego
         with open('config.json', 'w') as config_file:
             json.dump(config, config_file, sort_keys=True, indent=4)
