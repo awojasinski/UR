@@ -19,7 +19,7 @@ def objectRecognition(image, draw=True):
         for p in path:
             dir = dir + p + '\\'
             
-    config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = configRead('config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
+    config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = configRead(dir+'config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
 
     cnts, points = contoursDetection(image)     # Wykrywanie konturów na obrazie przekazanym jako argument
 

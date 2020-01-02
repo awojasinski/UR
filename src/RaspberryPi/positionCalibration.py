@@ -81,8 +81,8 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
             cv.imwrite('pos_calibration.png', img)
             # Pętla przypisująca współrzędne punktów w przestrzenii robota
             for num, point in enumerate(X):
-                point[1] = float(input('Współrzędna X punktu nr ' + str(num + 1) + ':')) / 1000
-                point[0] = float(input('Współrzędna Y punktu nr ' + str(num + 1) + ':')) / 1000
+                point[0] = float(input('Współrzędna X punktu nr ' + str(num + 1) + ':')) / 1000
+                point[1] = float(input('Współrzędna Y punktu nr ' + str(num + 1) + ':')) / 1000
 
             T = cv.findHomography(U, X)# Obliczenie macierzy homografii kamera -> robot
             print(X)

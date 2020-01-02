@@ -12,9 +12,8 @@ PORT = 10000
 
 # Pobranie danych o kamerze, macierzy homografii oraz kolejności podawania elementów
 # z pliku konfiguracyjnego, ustawienie wskaźnika element na pierwszą wartość
-config, order, mtx, dist, T, distRatio, thresholdValue = cvis.configRead('config.json')
+config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = cvis.configRead('config.json')
 element = 0
-objectHeight = 0.198
 
 # Początkowe ustawienia kamery
 camera = PiCamera()
@@ -57,8 +56,8 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
 
     x, y, w, h = roi
     img = img[y:y+h, x:x+w]     # Utworzenie nowego obrazu o zmniejsze rozdzielczości niż początkowa
-    #cv.imshow("Live", img)      # Wyświetlenie okna z podglądem obrazu
-   # Utworzenie kopii obrazu
+    cv.imshow("Live", img)      # Wyświetlenie okna z podglądem obrazu
+   
     shapes_info = cvis.objectRecognition(img)   # Wyszukiwanie obiektów na obrazie
 
     print('---------------------')

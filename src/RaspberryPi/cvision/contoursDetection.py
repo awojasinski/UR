@@ -20,7 +20,7 @@ def contoursDetection(image, drawContours=False):
         for p in path:
             dir = dir + p + '\\'
             
-    config, order, mtx, dist, T, distRatio, thresholdValue, objectHeigth = configRead('config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
+    config, order, mtx, dist, T, distRatio, thresholdValue, objectHeigth = configRead(dir+'config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
 
     # Preprocessing obrazu
     hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)  # Zmiana przestrzenii barw obrazu
