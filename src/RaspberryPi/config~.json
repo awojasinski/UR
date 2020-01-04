@@ -26,20 +26,12 @@
                 1.0
             ]
         ],
-        "thresholdValue": 195
+        "thresholdValue": 190
     },
     "objects_order": [
         {
-            "color": "blue",
+            "color": "white",
             "id": 1
-        },
-        {
-            "color": "orange",
-            "id": 2
-        },
-        {
-            "color": "yellow",
-            "id": 3
         }
     ],
     "pos_calibration": {
@@ -61,6 +53,6 @@
             ]
         ],
         "distRatio": 0.0010082987918640378,
-        "objectHeight": 0.198
+        "objectHeight": 0.196
     }
 }

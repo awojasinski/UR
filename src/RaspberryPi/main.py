@@ -23,6 +23,7 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 # Zatrzymanie programu aby kamera mogła się uruchomić
 sleep(0.1)
 photo = 0
+
 print('Computer vision system')
 print('----------------------')
 print('Server | host %s | port %d |' %(HOST, PORT))
@@ -48,17 +49,11 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     # Trójwymiarowa macierz o wymiarach szerokość, wysokość i kanał koloru
     img = frame.array   # Zapisanie akutalnego kadru do zmiennej
 
-    height, width = img.shape[:2]   # Przypisanie do zmiennych rozdzielczości obrazu
-    # Obliczenie nowej rozdzielczości obrazu po usunięciu zniekształceń
-    newcameramtx, roi = cv.getOptimalNewCameraMatrix(mtx, dist, (width, height), 1, (width, height))
+    img = cv.undistort(img, mtx, dist)  # Usunięcie zniekształceń obrazu
 
-    img = cv.undistort(img, mtx, dist, None, newcameramtx)  # Usunięcie zniekształceń obrazu
-
-    x, y, w, h = roi
-    img = img[y:y+h, x:x+w]     # Utworzenie nowego obrazu o zmniejsze rozdzielczości niż początkowa
     cv.imshow("Live", img)      # Wyświetlenie okna z podglądem obrazu
    
-    shapes_info = cvis.objectRecognition(img)   # Wyszukiwanie obiektów na obrazie
+    shapes_info = cvis.objectsRecognition(img, False)   # Wyszukiwanie obiektów na obrazie
 
     print('---------------------')
     print(shapes_info)
@@ -70,16 +65,13 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         print("Object not found")
 
     if ret:
-        print('Sending coordinates of shape:', shapes_info[index])
-        pos = cvis.transformPos(shapes_info[index][0], T)  # Obliczenie połorzenia obiektu w przestrzeni robota z macierzy homografii
-        print('Robot position %f X %f Y' % (pos[1], pos[0]))
+        print('Sending coordinates of shape:\n', shapes_info[index])
+        pos = cvis.transformPosition(shapes_info[index][0], T)  # Obliczenie połorzenia obiektu w przestrzeni robota z macierzy homografii
+        print('Robot position %f X %f Y' % (pos[0], pos[1]))
         # Wysłanie do robota UR5 współrzędnych punktu w którym znajduje się obiekt
-        connection.sendall(("(" + str(round(pos[1], 5)) + ', ' + str(round(pos[0], 5)) + ", " + str(objectHeight) + ", " + str(shapes_info[index][1]) + ", 3.14, 0)").encode('ascii'))
-        cv.imwrite(str(photo)+'.png', img)
+        connection.sendall(("(" + str(round(pos[0], 5)) + ', ' + str(round(pos[1], 5)) + ", " + str(objectHeight) + ", " + str(shapes_info[index][1]) + ", 3.14, 0)").encode('ascii'))
+        cv.imwrite('camera_images/main'+str(photo)+'.png', img)
         photo += 1
-        #img_drawing = cvis.drawElement(shapes_info[index], pos, img_drawing)    # Zapisanie na obrazie informacji o wykrytym obiekcie
-        #cv.imshow("Found element", img_drawing)
-        #cv.imwrite(str(element)+'.png', img_drawing)    # Zapisanie obrazu
         print('Waiting for response')
         data = connection.recv(1024).decode('ascii')  # Odebranie informacji od robota
         if data == 'OK':

@@ -7,20 +7,7 @@ from cvision.configRead import *
 
 
 def contoursDetection(image, drawContours=False):
-    dir = ""    # Zainicjalizowanie zmiennej przechowywującej ścieżkę do katalogu
-    path = os.getcwd()      # Odczytanie scieżki w której znajduje się skrypt
-    if '/' in path:
-        path = path.split('/')
-        path.pop()
-        for p in path:
-            dir = dir + p + '/'
-    if '\\' in path:
-        path = path.split('\\')
-        path.pop()
-        for p in path:
-            dir = dir + p + '\\'
-            
-    config, order, mtx, dist, T, distRatio, thresholdValue, objectHeigth = configRead(dir+'config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
+    config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = configRead('config.json')  # Odczytanie parametrów z pliku konfiguracyjnego
 
     # Preprocessing obrazu
     hsv = cv.cvtColor(image, cv.COLOR_BGR2HSV)  # Zmiana przestrzenii barw obrazu
@@ -38,12 +25,15 @@ def contoursDetection(image, drawContours=False):
     for c in cnts:
         m = cv.moments(c)  # Obliczenie momentów geometrycznych
         if m["m00"] != 0:
-            x = int(m["m10"] / m["m00"])    # Obliczenie współrzędnej X
-            y = int(m["m01"] / m["m00"])    # Obliczenie współrzędnej Y
+            x = m["m10"] / m["m00"]    # Obliczenie współrzędnej X
+            y = m["m01"] / m["m00"]    # Obliczenie współrzędnej Y
             u20 = m['m20'] / m['m00'] - x*x
             u02 = m['m02'] / m['m00'] - y*y
             u11 = m['m11'] / m['m00'] - x*y
-            theta = 0.5 * math.atan(2*u11 / (u20 - u02))
+            if (u20-u02)!=0:
+                theta = 0.5 * math.atan2(2*u11, (u20 - u02))
+            else:
+                theta = 0
         else:
             x = 0
             y = 0
@@ -51,5 +41,6 @@ def contoursDetection(image, drawContours=False):
 
         if drawContours:
             cv.drawContours(image, [c], -1, (0, 0, 255), 2)     # Rysowanie konturów na obrazie
-
-    return cnts, center_points
+            return cnts, center_points, image
+        else:
+            return cnts, center_points

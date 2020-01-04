@@ -1,0 +1,309 @@
+
+
+file: 12.png,
+rotation vector:
+[[0.02434746]
+ [0.16357994]
+ [0.01361741]],
+translation vector:
+[[-3.98243936]
+ [-4.37260719]
+ [18.15661995]],
+reprojection error: 0.010476343966903183
+
+file: 20.png,
+rotation vector:
+[[ 0.03147523]
+ [-0.33514531]
+ [ 0.0166709 ]],
+translation vector:
+[[ 0.99604568]
+ [-3.99767703]
+ [15.70683321]],
+reprojection error: 0.04435511024823486
+
+file: 0.png,
+rotation vector:
+[[ 0.02662037]
+ [ 0.00168638]
+ [-0.01589794]],
+translation vector:
+[[ 1.90311862]
+ [-2.81744763]
+ [18.76801162]],
+reprojection error: 0.040967015083413626
+
+file: 6.png,
+rotation vector:
+[[ 0.01334675]
+ [-0.02500535]
+ [ 0.02150266]],
+translation vector:
+[[-2.37937764]
+ [-0.78118676]
+ [18.63448647]],
+reprojection error: 0.008927964306184326
+
+file: 2.png,
+rotation vector:
+[[ 0.02403561]
+ [-0.02362115]
+ [-0.01854737]],
+translation vector:
+[[-2.65031092]
+ [-4.18217115]
+ [18.51966647]],
+reprojection error: 0.010337718567909908
+
+file: 27.png,
+rotation vector:
+[[ 0.00834053]
+ [-0.0621482 ]
+ [-0.41375017]],
+translation vector:
+[[-3.88200189]
+ [-1.09159196]
+ [16.4639922 ]],
+reprojection error: 0.020412352654796927
+
+file: 22.png,
+rotation vector:
+[[ 0.03094347]
+ [-0.33347409]
+ [ 0.07242905]],
+translation vector:
+[[-2.91389047]
+ [-1.66919377]
+ [15.88047299]],
+reprojection error: 0.03172191389967406
+
+file: 10.png,
+rotation vector:
+[[0.02183625]
+ [0.18301835]
+ [0.00677581]],
+translation vector:
+[[-7.39662804]
+ [-2.51180429]
+ [18.06052174]],
+reprojection error: 0.012661943761856951
+
+file: 25.png,
+rotation vector:
+[[-0.01731288]
+ [-0.06334589]
+ [-0.01731295]],
+translation vector:
+[[-3.1070884 ]
+ [-2.51930667]
+ [15.11209141]],
+reprojection error: 0.018823231326262575
+
+file: 4.png,
+rotation vector:
+[[ 0.01338119]
+ [-0.03010611]
+ [-0.00314611]],
+translation vector:
+[[-6.98087149]
+ [ 0.23653772]
+ [18.50262561]],
+reprojection error: 0.009698432646314053
+
+file: 9.png,
+rotation vector:
+[[0.01501338]
+ [0.23271299]
+ [0.00679508]],
+translation vector:
+[[-5.94448454]
+ [-0.91999667]
+ [18.08541429]],
+reprojection error: 0.013839323085404406
+
+file: 23.png,
+rotation vector:
+[[ 0.03061347]
+ [-0.36128704]
+ [ 0.06248742]],
+translation vector:
+[[-5.47954296]
+ [-1.74654917]
+ [15.61738453]],
+reprojection error: 0.027684863478720286
+
+file: 14.png,
+rotation vector:
+[[0.01847492]
+ [0.13791057]
+ [0.02345425]],
+translation vector:
+[[ 0.75035746]
+ [-4.52598511]
+ [18.35213408]],
+reprojection error: 0.014399154134517098
+
+file: 16.png,
+rotation vector:
+[[0.01423983]
+ [0.14598595]
+ [0.01431788]],
+translation vector:
+[[-2.96234868]
+ [-0.80695197]
+ [18.32841226]],
+reprojection error: 0.012659669655768384
+
+file: 26.png,
+rotation vector:
+[[-0.01672225]
+ [-0.0839397 ]
+ [-0.00621246]],
+translation vector:
+[[-3.16582501]
+ [-2.76484184]
+ [16.6278644 ]],
+reprojection error: 0.01806295275920449
+
+file: 24.png,
+rotation vector:
+[[ 0.02033933]
+ [-0.02591912]
+ [ 0.01846544]],
+translation vector:
+[[-3.37933396]
+ [-2.72860252]
+ [18.54461525]],
+reprojection error: 0.009869301695284076
+
+file: 21.png,
+rotation vector:
+[[ 0.02205324]
+ [-0.2898529 ]
+ [ 0.01637019]],
+translation vector:
+[[ 1.06665754]
+ [-0.97492022]
+ [16.2933342 ]],
+reprojection error: 0.041969330797847045
+
+file: 7.png,
+rotation vector:
+[[ 0.01425949]
+ [-0.02850652]
+ [ 0.01445815]],
+translation vector:
+[[ 1.08618707]
+ [-0.66546934]
+ [18.70664121]],
+reprojection error: 0.0106074445133861
+
+file: 1.png,
+rotation vector:
+[[ 0.02539749]
+ [-0.02888937]
+ [ 0.003979  ]],
+translation vector:
+[[ 0.81612508]
+ [-4.37860345]
+ [18.5818364 ]],
+reprojection error: 0.009277075543728025
+
+file: 5.png,
+rotation vector:
+[[ 0.01518268]
+ [-0.03086621]
+ [ 0.00919435]],
+translation vector:
+[[-7.19728198]
+ [-0.25100063]
+ [18.48091618]],
+reprojection error: 0.009632571360743459
+
+file: 8.png,
+rotation vector:
+[[0.01763414]
+ [0.37664155]
+ [0.00548994]],
+translation vector:
+[[-1.13407648]
+ [-0.51103097]
+ [18.00062446]],
+reprojection error: 0.018529160562958804
+
+file: 18.png,
+rotation vector:
+[[ 0.0327147 ]
+ [-0.57976578]
+ [ 0.0356537 ]],
+translation vector:
+[[-5.1028597 ]
+ [-3.34186508]
+ [13.94695322]],
+reprojection error: 0.04136570785746958
+
+file: 11.png,
+rotation vector:
+[[0.02557435]
+ [0.17100578]
+ [0.00017383]],
+translation vector:
+[[-7.31996354]
+ [-4.12841229]
+ [18.03499181]],
+reprojection error: 0.011485560967805777
+
+file: 17.png,
+rotation vector:
+[[ 0.03377518]
+ [-0.59261234]
+ [ 0.04730698]],
+translation vector:
+[[-4.72936631]
+ [-1.82528661]
+ [13.90547512]],
+reprojection error: 0.04417818586507031
+
+file: 19.png,
+rotation vector:
+[[ 0.03009956]
+ [-0.54517681]
+ [ 0.01292654]],
+translation vector:
+[[-1.76376349]
+ [-3.65790714]
+ [14.23299183]],
+reprojection error: 0.049306517556132114
+
+file: 3.png,
+rotation vector:
+[[ 0.0278178 ]
+ [-0.03102574]
+ [-0.01006588]],
+translation vector:
+[[-6.81648713]
+ [-4.09201472]
+ [18.37770371]],
+reprojection error: 0.010859668214389485
+
+file: 13.png,
+rotation vector:
+[[0.02033296]
+ [0.15729621]
+ [0.0228892 ]],
+translation vector:
+[[-0.71301767]
+ [-4.58463412]
+ [18.26228175]],
+reprojection error: 0.01457060304331074
+
+file: 15.png,
+rotation vector:
+[[0.01653216]
+ [0.1146841 ]
+ [0.01231285]],
+translation vector:
+[[ 0.17715997]
+ [-1.18633492]
+ [18.46116184]],
+reprojection error: 0.013014193905659685

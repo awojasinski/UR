@@ -19,10 +19,10 @@ def configRead(filename):
     thresholdValue = config['cam_calibration']['thresholdValue']
     T = np.asarray(config['pos_calibration']['T'])
     distRatio = config['pos_calibration']['distRatio']
-    objectHeigth = config['pos_calibration']['objectHeigth']
+    objectHeight = config['pos_calibration']['objectHeight']
 
     # Sprawdzenie ilości elementów w tablicy z kolejnością obiektów do rozpoznania
     if len(order) == 0:
         print("Brak obiektów w tablicy elementów do rozpoznania")
 
-    return config, order, mtx, dist, T, distRatio, thresholdValue, objectHeigth
+    return config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight

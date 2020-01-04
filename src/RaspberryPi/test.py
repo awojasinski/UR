@@ -8,9 +8,24 @@ from time import sleep
 import json
 import numpy as np
 import sys
+import glob
 
-config, order, mtx, dist, T, distRatio, ratio = cvis.configRead('config.json')
+images = glob.glob('camera_images/*.png')
+for fname in images:
+    img = cv.imread(fname)
+    fname = fname.split('/')
+    fname = fname[1]
+    cv.imwrite('camera_images/homographyTest'+fname,img)
+
+images = glob.glob('*.png')  # Utworzenie listy obiektów o rozszeżeniu .png znajdujących się w katalogu cam_correction_photos
+for fname in images:
+    img = cv.imread(fname)
+    cv.imwrite('camera_images/main'+fname, img)
+
+
 '''
+config, order, mtx, dist, T, distRatio, ratio = cvis.configRead('config.json')
+
 U = [155, 307]
 X = cvis.transformPos(U, T)
 
@@ -35,7 +50,7 @@ for i in X:
     U = np.append(U, [cvis.transformPos(i, T_n)], axis=0)
 
 print(U)
-'''
+
 camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 30
@@ -70,3 +85,4 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         break
         
     rawCapture.truncate(0)  # Wyczyszczenie strumienia, aby przygotować go na kolejną klatkę
+'''
