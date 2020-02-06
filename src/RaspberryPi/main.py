@@ -16,10 +16,10 @@ config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = cvis.conf
 element = 0
 
 # Początkowe ustawienia kamery
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 30
-rawCapture = PiRGBArray(camera, size=(640, 480))
+camera = cv.VideoCapture(0)
+camera.set(cv.CAP_PROP_FRAME_WIDTH, 640)
+camera.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
+camera.set(cv.CAP_PROP_FPS, 30)
 # Zatrzymanie programu aby kamera mogła się uruchomić
 sleep(0.1)
 photo = 0
@@ -44,10 +44,10 @@ connection, client_addr = s.accept()    # Zaakceptowanie próby nawiązania poł
 
 print('Connection from: ', client_addr)
 
-for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+while True:
 
     # Trójwymiarowa macierz o wymiarach szerokość, wysokość i kanał koloru
-    img = frame.array   # Zapisanie akutalnego kadru do zmiennej
+    ret, img = camera.read()   # Zapisanie akutalnego kadru do zmiennej
 
     img = cv.undistort(img, mtx, dist)  # Usunięcie zniekształceń obrazu
 
@@ -82,6 +82,5 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
             print('Closing server')
             s.close()
             cv.destroyAllWindows()
+            cv.VideoCapture(0).release()
             sys.exit()
-
-    rawCapture.truncate(0)  # Wyczyszczenie strumienia, aby przygotować go na kolejną klatkę

@@ -1,8 +1,6 @@
 import cv2 as cv
 import cvision as cvis
 import math
-from picamera.array import PiRGBArray
-from picamera import PiCamera
 from time import sleep
 import json
 import numpy as np
@@ -18,10 +16,10 @@ def distance(pointA, pointB):
 config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = cvis.configRead('config.json')
 
 # Początkowe ustawienia kamery
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 30
-rawCapture = PiRGBArray(camera, size=(640, 480))
+camera = cv.VideoCapture(0)
+camera.set(cv.CAP_PROP_FRAME_WIDTH, 640)
+camera.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
+camera.set(cv.CAP_PROP_FPS, 30)
 # Zatrzymanie programu aby kamera mogła się uruchomić
 sleep(0.1)
 
@@ -42,10 +40,10 @@ chess_heigth = int(input("Podaj ilość narożników szachownicy w pionie na szu
 chess_width = int(input("Podaj ilość narożników szachownicy w poziomie na szukanej tablicy kalibracyjnej: "))
 dim = (chess_heigth, chess_width)
 
-for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+while True:
 
     # Trójwymiarowa macierz o wymiarach szerokość, wysokość i kanał koloru
-    img = frame.array   # Zapisanie akutalnego kadru do zmiennej
+    ret, img = camera.read()   # Zapisanie akutalnego kadru do zmiennej
     
     img = cv.undistort(img, mtx, dist)  # Usunięcie zniekształceń obrazu
 
@@ -88,15 +86,13 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
             with open('config.json', 'w') as config_file:
                 json.dump(config, config_file, sort_keys=True, indent=4)
             cv.destroyAllWindows()
+            cv.VideoCapture(0).release()
             sys.exit()
         else:
             print("W obszarze aktywnym nie wykryto tablicy kalibracyjnej")
 
     elif key == ord('q') or key == 27:
         print("Przerwanie procesu kalibracji kamery z robotem")
+        cv.destroyAllWindows()
+        cv.VideoCapture(0).release()
         break
-    
-    rawCapture.truncate(0)
-
-cv.destroyAllWindows()
-

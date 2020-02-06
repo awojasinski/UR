@@ -12,10 +12,10 @@ element = 0
 i = 0
 
 # Początkowe ustawienia kamery
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 30
-rawCapture = PiRGBArray(camera, size=(640, 480))
+camera = cv.VideoCapture(0)
+camera.set(cv.CAP_PROP_FRAME_WIDTH, 640)
+camera.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
+camera.set(cv.CAP_PROP_FPS, 30)
 # Zatrzymanie programu aby kamera mogła się uruchomić
 sleep(0.1)
 
@@ -35,10 +35,10 @@ connection, client_addr = s.accept()    # Zaakceptowanie próby nawiązania poł
 print('Connection from: ', client_addr)
 
 
-for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+while True:
 
     # Trójwymiarowa macierz o wymiarach szerokość, wysokość i kanał koloru
-    img = frame.array   # Zapisanie akutalnego kadru do zmiennej
+    ret, img = camera.read()   # Zapisanie akutalnego kadru do zmiennej
 
     img = cv.undistort(img, mtx, dist)  # Usunięcie zniekształceń obrazu
 
@@ -49,11 +49,10 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
     # dzięki temu nie ma znaczenia czy klwaisz został wciśnięty z włączonym CapsLock czy nie
     key = cv.waitKey(1) & 0xFF
 
-    rawCapture.truncate(0)  # Wyczyszczenie strumienia, aby przygotować go na kolejną klatkę
-
     if key == ord('q'):     # Jeśli wciśnięty klawisz to 'q' zamknij okno i zakończ program
         print('Zakończenie działania programu')
         cv.destroyAllWindows()
+        cv.VideoCapture(0).release()
         break
     elif key == 13:     # Jeśli wciśnięty klawisz to 'Enter' zostanie zapisany obraz
         s = input('Nazwa zdjęcia: ')
