@@ -129,4 +129,3 @@ for fname in images:
         fname = fname[1]
     dst = cv.undistort(img, mtx, dist)
     cv.imwrite('camera_correction_photos/undistored_images/' + fname, dst)
-    

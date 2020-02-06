@@ -1,8 +1,6 @@
 import cv2 as cv
 import socket
 import sys
-from picamera.array import PiRGBArray
-from picamera import PiCamera
 from time import sleep
 import cvision as cvis
 

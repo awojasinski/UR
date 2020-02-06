@@ -1,7 +1,5 @@
 import cv2 as cv
 import cvision as cvis
-from picamera.array import PiRGBArray
-from picamera import PiCamera
 from time import sleep
 from matplotlib import pyplot as plt
 import numpy as np
@@ -15,10 +13,10 @@ def nothing(x):
 config, order, mtx, dist, T, distRatio, thresholdValue, objectHeight = cvis.configRead('config.json')
 
 # Początkowe ustawienia kamery
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 30
-rawCapture = PiRGBArray(camera, size=(640, 480))
+camera = cv.VideoCapture(0)
+camera.set(cv.CAP_PROP_FRAME_WIDTH, 640)
+camera.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
+camera.set(cv.CAP_PROP_FPS, 30)
 # Zatrzymanie programu aby kamera mogła się uruchomić
 sleep(0.1)
 
@@ -33,10 +31,10 @@ fig = plt.figure()  # Inicjalizacja wykresu
 cv.namedWindow("Threshold Setup")
 cv.createTrackbar("Próg binaryzacji", "Threshold Setup", thresholdValue, 255, nothing)
 
-for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=True):
+while True:
 
     # Trójwymiarowa macierz o wymiarach szerokość, wysokość i kanał koloru
-    img = frame.array   # Zapisanie akutalnego kadru do zmiennej
+    ret, img = camera.read()   # Zapisanie akutalnego kadru do zmiennej
     thresholdValue = cv.getTrackbarPos('Próg binaryzacji', "Threshold Setup")   # Pobranie wartości z suwaka
     
     hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)    # Zmiana przestrzeni barw z BGR na HSV
@@ -72,6 +70,5 @@ for frame in camera.capture_continuous(rawCapture, format='bgr', use_video_port=
         with open('config.json', 'w') as config_file:
             json.dump(config, config_file, sort_keys=True, indent=4)
         cv.destroyAllWindows()
+        cv.VideoCapture(0).release()
         break
-    
-    rawCapture.truncate(0)
